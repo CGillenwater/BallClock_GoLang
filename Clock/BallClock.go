@@ -2,8 +2,8 @@ package clock
 
 import (
 	"math"
-	"github.com/cgillenwater/BallClock_GoLang/Ball"
-	"github.com/cgillenwater/BallClock_GoLang/BallContainer"
+	"github.com/CGillenwater/BallClock_GoLang/Ball"
+	"github.com/CGillenwater/BallClock_GoLang/BallContainer"
 )
 
 //Max amount of balles per Rail
@@ -11,10 +11,10 @@ const HOUR_RAIL_CAP = 11
 const FIVE_MIN_RAIL_CAP = 11
 const ONE_MIN_RAIL_CAP = 4
 
-var ballQueue ballContainer.Queue
-var hourRail ballContainer.Rail
-var fiveMinRail ballContainer.Rail
-var oneMinRail ballContainer.Rail
+var ballQueue ballContainers.Queue
+var hourRail ballContainers.Rail
+var fiveMinRail ballContainers.Rail
+var oneMinRail ballContainers.Rail
 var numClockRefreshes uint64
 
 // //Function to determine if a rail is empty
@@ -66,7 +66,7 @@ func calcCycle(queueCapacity uint8) {
 	for {
 		ball := ballQueue.Pop()
 		updateClockState(ball)
-		if ballQueue.IsFUll() {
+		if ballQueue.isFull() {
 			numClockRefreshes++
 			if ballQueue.IsStartingPosition() {
 				break
@@ -79,7 +79,7 @@ func calcCycle(queueCapacity uint8) {
 //The clock runs.
 func calcNumDaysInCycle(queueCapacity uint8) uint64 {
 	numClockRefreshes = 0
-	ballQueue = ballContainer.NewQueue(queueCapacity)
+	ballQueue = ballContainers.NewQueue(queueCapacity)
 	calcCycle(queueCapacity)
 	return uint64(math.Ceil(float64(numClockRefreshes) / 2.0))
 }

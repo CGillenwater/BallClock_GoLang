@@ -5,10 +5,10 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/cgillenwater/BallClock_GoLang/clock"
 	"os"
 	"path"
 	"strconv"
+	"github.com/CGillenwater/BallClock_GoLang/Clock"
 )
 
 const NUM_ARGS = 0
