@@ -29,6 +29,13 @@ var numClockRefreshes uint64
 // }
 
 
+//Initialization for the new rails, in order to keep track of time.
+func init() {
+	oneMinRail = ballContainers.NewRail(ONE_MIN_RAIL_CAP)
+	fiveMinRail = ballContainers.NewRail(FIVE_MIN_RAIL_CAP)
+	hourRail = ballContainers.NewRail(HOUR_RAIL_CAP)
+}
+
 //Add a ball, to represent passing of time.
 func updateClockState(clockBall ball.Ball) {
 	var ballOverflow []ball.Ball
@@ -66,7 +73,7 @@ func calcCycle(queueCapacity uint8) {
 	for {
 		ball := ballQueue.Pop()
 		updateClockState(ball)
-		if ballQueue.isFull() {
+		if ballQueue.IsFull() {
 			numClockRefreshes++
 			if ballQueue.IsStartingPosition() {
 				break
@@ -77,7 +84,7 @@ func calcCycle(queueCapacity uint8) {
 
 //Determines the number of days (total complete cycles / 2)
 //The clock runs.
-func calcNumDaysInCycle(queueCapacity uint8) uint64 {
+func CalcNumDaysInCycle(queueCapacity uint8) uint64 {
 	numClockRefreshes = 0
 	ballQueue = ballContainers.NewQueue(queueCapacity)
 	calcCycle(queueCapacity)

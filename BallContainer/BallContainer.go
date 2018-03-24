@@ -19,11 +19,13 @@ func NewBallContainer(capacity uint8, numBalls uint8) BallContainer {
 	return BallContainer{capacity, numBalls}
 }
 
-func (bc BallContainer) isFull() bool {
+func (bc BallContainer) IsFull() bool {
 	return bc.capacity == bc.numBalls
 }
 
+
 //Creating a ring pointer for our Ring container
+// QUEUE STRUCT
 type Queue struct {
 	BallContainer
 	ring *ring.Ring
@@ -52,7 +54,7 @@ func (queueP *Queue) Pop() ball.Ball {
 //Check to see if the Container has made a full rotation. 
 //(All balls are in their original position)
 func (queueP *Queue) IsStartingPosition() bool {
-	if !queueP.isFull() {
+	if !queueP.IsFull() {
 		return false;
 	}
 
@@ -126,7 +128,7 @@ func (railP *Rail) spill() []ball.Ball {
 //Adding a single ball to the rail
 //And all subsequent events that occur
 func (railP *Rail) Push(ballInstance ball.Ball) []ball.Ball {
-	if railP.isFull() {
+	if railP.IsFull() {
 		//Reset the rail state, and spill to the next rail
 		railP.numBalls = 0
 		return railP.spill()

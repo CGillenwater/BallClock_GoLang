@@ -18,7 +18,7 @@ const END_OF_INPUT_VAL = 0
 
 func usage() {
 	name := path.Base(os.Args[0])
-	msg := fmt.Sprintf("Usage: %s\n\n" + "%s takes no arguments and accepts input from stdin.\n", name, name)
+	msg := fmt.Sprintf("Usage: %s\n\n"+"%s takes no arguments and accepts input from stdin.\n", name, name)
 	fmt.Fprintf(os.Stderr, msg)
 }
 
@@ -27,14 +27,14 @@ func parseCommandLine() {
 }
 
 //Parse the scanned input from bufio. Otherwise, throw an error
-func run(scanner *bufio.Scanner, fileP *os,File, isInputValid bool) error {
+func runSingleInput(scanner *bufio.Scanner, fileP *os.File, File, isInputValid bool) error {
 	var numBalls uint64 //uint64 instead of uint8 due to strconv,ParseUint returning a uint64
 	var err error
 
 	for scanner.Scan() {
-		input := scanner.Text();
+		input := scanner.Text()
 		if numBalls, err = strconv.ParseUint(input, 10, 8); err != nil {
-			msg := fmt.Sprintf("Failed to parse input, \"%s\", as uint8", text)
+			msg := fmt.Sprintf("Failed to parse input, \"%s\", as uint8", input)
 			fmt.Fprintf(os.Stderr, msg)
 			return errors.New(msg)
 		}
@@ -51,13 +51,13 @@ func run(scanner *bufio.Scanner, fileP *os,File, isInputValid bool) error {
 			return errors.New(msg)
 		} else {
 			if !isInputValid {
-				fmt.Fprintf(file, "%d balls cycle after %d days. \n", numBalls, clock.calcNumDaysInCycle)
+				fmt.Fprintf(os.Stderr, "%d balls cycle after %d days. \n", numBalls, clock.CalcNumDaysInCycle(uint8(numBalls)))
 			}
 		}
 	}
 
 	if err = scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "Error reading from input: ", err,Error())
+		fmt.Fprintln(os.Stderr, "Error reading from input: ", err)
 		return err
 	} else if numBalls == 0{
 		msg := fmt.Sprintf("Empty Input")
@@ -73,12 +73,15 @@ func run(scanner *bufio.Scanner, fileP *os,File, isInputValid bool) error {
 
 func main() {
 	flag.Usage = usage
+	fmt.Println("\n--------------------\nENTER '0' TO EXIT")
+	fmt.Println("\nPlease enter the number of balls in the clock (27-127):")
+
 	if flag.NArg() != NUM_ARGS {
 		usage()
 		os.Exit(1)
 	}
 
-	if err := run(bufio.NewScanner(os.Stdin), os.Stdout, false); err != nil {
+	if err := runSingleInput(bufio.NewScanner(os.Stdin), os.Stdout, false, false); err != nil {
 		os.Exit(1)
 	}
 }
