@@ -1,5 +1,5 @@
 ///Parts that would keep track of all things to deal with the collection of balls.
-///Queue, location, etc.
+///Queue, location, Rails.
 
 package ballContainers
 
@@ -39,9 +39,17 @@ func NewQueue(capacity uint8) Queue {
 		r.Value = ball.New(i)
 		r = r.Next()
 	}
-
+	
 	return Queue{bc, r}
 }
+
+// func (queueP *Queue) PrintBallQueueIDs() {
+// 	//fmt.Print("Current Queue = {")
+// 		for i := uint8(0); i < uint8(queueP.ring.Len()); i++ {
+// 			fmt.Print(i, ", ")
+// 		}
+// 		fmt.Println()
+// }
 
 //Select the starting point for the Queue
 func (queueP *Queue) Pop() ball.Ball {
@@ -71,21 +79,6 @@ func (queueP *Queue) IsStartingPosition() bool {
 	return true
 }
 
-// //Test Queue
-// // -1 = empty
-// func (queueP *Queue) GetTestRepr() []int {
-// 	repr := make([]int, queueP.capacity)
-// 	for i := uint8(0); i < queueP.capacity; i++ {
-// 		ball := queueP.ring.Value.(ball.Ball)
-// 		queueP.ring = queueP.ring.Next()
-// 		if i >= queueP.numBalls {
-// 			repr[i] = -1 //Empty
-// 		} else {
-// 			repr[i] = int(ball.Id)
-// 		}
-// 	}
-// 	return repr
-// }
 
 //Placing an Array of "ball" at the end of the queue
 func (queueP *Queue) Push(balls []ball.Ball) {
@@ -138,17 +131,3 @@ func (railP *Rail) Push(ballInstance ball.Ball) []ball.Ball {
 	railP.numBalls++
 	return []ball.Ball{}
 }
-
-// //Test for rail
-// // -1 = empty
-// func (railP *Rail) GetTestRepr() []int {
-// 	repr := make([]int, railP.capacity)
-// 	for i := uint8(0); i < railP.capacity; i++ {
-// 		if i >= railP.numBalls {
-// 			repr[i] = -1 //Empty
-// 		} else {
-// 			repr[i] = int(railP.Balls[i].Id)
-// 		}
-// 	}
-// 	return repr
-// }

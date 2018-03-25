@@ -27,8 +27,8 @@ func parseCommandLine() {
 }
 
 //Parse the scanned input from bufio. Otherwise, throw an error
-func runSingleInput(scanner *bufio.Scanner, fileP *os.File, File, isInputValid bool) error {
-	var numBalls uint64 //uint64 instead of uint8 due to strconv,ParseUint returning a uint64
+func runSingleInput(scanner *bufio.Scanner, isInputValid bool) error {
+	var numBalls uint64 //uint64 instead of uint8 due to strconv.ParseUint returning a uint64
 	var err error
 
 	for scanner.Scan() {
@@ -73,6 +73,7 @@ func runSingleInput(scanner *bufio.Scanner, fileP *os.File, File, isInputValid b
 
 func main() {
 	flag.Usage = usage
+	parseCommandLine()
 	fmt.Println("\n--------------------\nENTER '0' TO EXIT")
 	fmt.Println("\nPlease enter the number of balls in the clock (27-127):")
 
@@ -81,7 +82,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := runSingleInput(bufio.NewScanner(os.Stdin), os.Stdout, false, false); err != nil {
+	if err := runSingleInput(bufio.NewScanner(os.Stdin), false); err != nil {
 		os.Exit(1)
 	}
 }

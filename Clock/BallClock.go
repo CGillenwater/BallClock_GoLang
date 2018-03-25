@@ -6,7 +6,7 @@ import (
 	"github.com/CGillenwater/BallClock_GoLang/BallContainer"
 )
 
-//Max amount of balles per Rail
+//Max amount of balls per Rail
 const HOUR_RAIL_CAP = 11
 const FIVE_MIN_RAIL_CAP = 11
 const ONE_MIN_RAIL_CAP = 4
@@ -46,7 +46,7 @@ func updateClockState(clockBall ball.Ball) {
 	if len(ballOverflow) == 0 {
 		return
 	}
-
+	
 	ballQueue.Push(ballOverflow)
 
 	//Determines if the Five Minute Rail is full.
@@ -66,6 +66,9 @@ func updateClockState(clockBall ball.Ball) {
 	}
 
 	ballQueue.Push(append(ballOverflow, clockBall))
+	// fmt.Print("Hour: ", ballOverflow)
+	// fmt.Println()
+
 }
 
 //Determine a single cycle.
