@@ -2,13 +2,11 @@ package driver
 
 import (
 	"bufio"
-	"errors"
-	"flag"
 	"fmt"
 	"os"
 	"path"
-	"strconv"
 	"github.com/CGillenwater/BallClock_GoLang/Clock"
+	"github.com/CGillenwater/BallClock_GoLang/Parser"
 )
 
 const NUM_ARGS = 0
@@ -22,51 +20,14 @@ func Usage() {
 	fmt.Fprintf(os.Stderr, msg)
 }
 
-func parseCommandLine() {
-	flag.Parse()
-}
-
 //Parse the scanned input from bufio. Otherwise, throw an error
-func RunSingleInput(scanner *bufio.Scanner, isInputValid bool) error {
+func RunSingleInput(scanner *bufio.Scanner) error {
 	var numBalls uint64 //uint64 instead of uint8 due to strconv.ParseUint returning a uint64
 	var err error
-
-	for scanner.Scan() {
-		input := scanner.Text()
-		if numBalls, err = strconv.ParseUint(input, 10, 8); err != nil {
-			msg := fmt.Sprintf("Failed to parse input, \"%s\", as uint8", input)
-			fmt.Fprintf(os.Stderr, msg)
-			return errors.New(msg)
-		}
-
-		if numBalls == END_OF_INPUT_VAL {
-			return nil
-		} else if numBalls > MAX_BALLS {
-			msg := fmt.Sprintf("Too many balls declared, %d > %d", numBalls, MAX_BALLS)
-			fmt.Fprintln(os.Stderr, msg)
-			return errors.New(msg)
-		} else if numBalls < MIN_BALLS {
-			msg := fmt.Sprintf("Too few balls declared, %d < %d", numBalls, MIN_BALLS)
-			fmt.Fprintln(os.Stderr, msg)
-			return errors.New(msg)
-		} else {
-			if !isInputValid {
-				fmt.Fprintf(os.Stderr, "%d balls cycle after %d days. \n", numBalls, clock.CalcNumDaysInCycle(uint8(numBalls)))
-			}
-		}
-	}
-
-	if err = scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "Error reading from input: ", err)
+	numBalls, err = parser.PromptForSingleInput(scanner, MIN_BALLS, MAX_BALLS)
+	if(err != nil) {
 		return err
-	} else if numBalls == 0{
-		msg := fmt.Sprintf("Empty Input")
-		fmt.Fprintln(os.Stderr, msg)
-		return errors.New(msg)
-	} else if numBalls != 0 {
-		msg := fmt.Sprintf("Zero should signify end of input, returned %d", numBalls)
-		fmt.Fprintln(os.Stderr, msg)
-		return errors.New(msg)
-	}
+	} 
+	fmt.Fprintf(os.Stderr, "%d balls cycle after %d days. \n", numBalls, clock.CalcNumDaysInCycle(uint8(numBalls)))
 	return nil
 }

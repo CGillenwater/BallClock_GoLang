@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"flag"
 	"os"
 	"bufio"
@@ -14,15 +13,13 @@ func parseCommandLine() {
 
 func main() {
 	parseCommandLine()
-	fmt.Println("\n--------------------\nENTER '0' TO EXIT")
-	fmt.Println("\nPlease enter the number of balls in the clock (27-127):")
 
 	if flag.NArg() != driver.NUM_ARGS {
 		driver.Usage()
 		os.Exit(1)
 	}
 
-	if err := driver.RunSingleInput(bufio.NewScanner(os.Stdin), false); err != nil {
+	if err := driver.RunSingleInput(bufio.NewScanner(os.Stdin)); err != nil {
 		os.Exit(1)
 	}
 }
