@@ -2,6 +2,7 @@ package clock
 
 import (
 	"math"
+	//"fmt"
 	"github.com/CGillenwater/BallClock_GoLang/Ball"
 	"github.com/CGillenwater/BallClock_GoLang/BallContainer"
 )
@@ -66,8 +67,8 @@ func updateClockState(clockBall ball.Ball) {
 	}
 
 	ballQueue.Push(append(ballOverflow, clockBall))
-	// fmt.Print("Hour: ", ballOverflow)
-	// fmt.Println()
+	 //fmt.Print("Hour: ", ballOverflow)
+	 //fmt.Println()
 
 }
 
