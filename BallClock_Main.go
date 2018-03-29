@@ -1,25 +1,27 @@
 package main
 
 import (
-	"flag"
+	//"flag"
 	"os"
 	"bufio"
 	"github.com/CGillenwater/BallClock_GoLang/BallClockRunner"
 )
 
-func parseCommandLine() {
-	flag.Parse()
-}
+// func parseCommandLine() {
+// 	flag.Parse()
+// }
 
 func main() {
-	parseCommandLine()
+	// parseCommandLine()
 
-	if flag.NArg() != driver.NUM_ARGS {
-		driver.Usage()
-		os.Exit(1)
-	}
+	// if flag.NArg() != driver.NUM_ARGS {
+	// 	driver.Usage()
+	// 	os.Exit(1)
+	// }
 
-	if err := driver.RunSingleInput(bufio.NewScanner(os.Stdin)); err != nil {
-		os.Exit(1)
-	}
+	driver.MainMenuLogic(bufio.NewScanner(os.Stdin));
+
+	// if err := driver.RunSingleInput(bufio.NewScanner(os.Stdin)); err != nil {
+	// 	os.Exit(1)
+	// }
 }
